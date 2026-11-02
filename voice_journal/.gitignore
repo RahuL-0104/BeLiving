@@ -1,0 +1,5 @@
+keys.env
+.env
+venv/
+__pycache__/
+entries/

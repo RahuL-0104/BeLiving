@@ -1,0 +1,11 @@
+.venv
+venv
+__pycache__
+.pytest_cache
+.env
+tests
+demo.py
+demo_output.txt
+*.bat
+tools
+live_check_output.txt

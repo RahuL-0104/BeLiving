@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BeLiving</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+<style>
+/* BeLiving Home system: cream screen, white cards, navy tab bar, yellow highlight, Playfair numbers, DM Sans text */
+:root{
+  --page:#D9D6D0; --cream:#F3EFE8; --card:#FFFFFF; --line:#E6E1D8; --ink:#2B3A52; --text:#3D4452; --muted:#8B919C;
+  --navy:#2B3A52; --navy-2:#34465F; --yellow:#F9D468; --yellow-soft:#FDF3D6; --green:#8FBF9A; --green-soft:#E3EFE5;
+  --lav:#B9A9D9; --lav-soft:#EEE9F7; --teal:#3E8C96; --teal-soft:#DEEFF1; --red:#C0644F; --red-soft:#F8E4DE;
+  --serif:"Playfair Display",Georgia,serif; --sans:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--page);font-family:var(--sans);color:var(--text);display:flex;justify-content:center;align-items:center;padding:20px 12px}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+:focus-visible{outline:2px solid var(--navy);outline-offset:2px}
+.hidden{display:none!important}
+
+.phone{width:393px;max-width:100%;height:min(852px,calc(100vh - 40px));background:var(--cream);border-radius:34px;overflow:hidden;
+  display:flex;flex-direction:column;position:relative;box-shadow:0 20px 50px rgba(30,35,45,.18)}
+@media (max-width:430px){body{padding:0}.phone{border-radius:0;height:100vh;height:100dvh;box-shadow:none}}
+.views{flex:1;min-height:0;position:relative}
+.view{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden}
+
+/* ---------- home ---------- */
+#v-home{padding:26px 22px 24px;display:flex;flex-direction:column;gap:18px}
+.top{display:flex;align-items:center;justify-content:space-between}
+.avatar{width:46px;height:46px;border-radius:50%;background:var(--green);border:1.5px solid var(--ink);display:grid;place-items:center;font-weight:600;color:var(--ink)}
+.date{text-align:center}
+.date small{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.date b{font-family:var(--serif);font-weight:500;font-size:22px;color:var(--ink)}
+.sq{width:46px;height:46px;border-radius:14px;background:var(--yellow);border:1.5px solid var(--ink);display:grid;place-items:center;color:var(--ink)}
+.greet{color:var(--muted);font-size:15px;margin-top:-6px}
+.ring-wrap{display:flex;flex-direction:column;align-items:center;gap:14px}
+.ring{position:relative;width:170px;height:170px}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring .n{font-family:var(--serif);font-size:56px;line-height:1;color:var(--ink)}
+.ring .l{font-size:11px;letter-spacing:.14em;color:var(--muted);margin-top:4px}
+.week{display:flex;gap:8px}
+.week span{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:12px;color:var(--muted);background:transparent}
+.week span.on{background:var(--yellow);border-color:var(--ink);color:var(--ink);font-weight:600}
+.week span.today{border-color:var(--ink)}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 8px 12px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:2px}
+.stat .v{font-family:var(--serif);font-size:24px;color:var(--ink);line-height:1.1}
+.stat .k{font-size:12px;color:var(--muted);line-height:1.3}
+.stat i{display:block;width:22px;height:3px;border-radius:3px;margin-top:6px}
+.sec{display:flex;justify-content:space-between;align-items:baseline}
+.sec h2{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.sec span{font-size:12.5px;color:var(--muted)}
+.apps{display:flex;flex-direction:column;gap:10px}
+.app{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px;display:flex;align-items:center;gap:12px;text-align:left;width:100%}
+.app:hover{border-color:#D5CFC4}
+.ic{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;flex:none;background:var(--bgc);color:var(--fc)}
+.ic svg{width:26px;height:26px}
+.app .t{flex:1;min-width:0}
+.app .t b{display:block;font-size:15.5px;font-weight:600;color:var(--ink)}
+.app .t small{display:block;font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.app .st{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--muted);margin-top:3px}
+.dot{width:7px;height:7px;border-radius:50%;background:#C9C4BA;flex:none}
+.dot.running{background:#5F9E75}.dot.starting{background:#E2B33C}.dot.stopped,.dot.missing{background:var(--red)}
+.open{background:var(--yellow);color:var(--ink);font-weight:600;font-size:13px;border-radius:999px;padding:7px 14px;flex:none}
+.c-coach{--bgc:var(--green-soft);--fc:#4E8A62}.c-clock{--bgc:var(--yellow-soft);--fc:#B8860B}
+.c-journal{--bgc:var(--lav-soft);--fc:#7B66B3}.c-focus{--bgc:#E3E8EF;--fc:var(--navy)}.c-calm{--bgc:var(--teal-soft);--fc:var(--teal)}
+
+/* ---------- coach chat ---------- */
+#v-coach{display:flex;flex-direction:column;overflow:hidden}
+.chat-head{padding:24px 22px 12px;display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.chat-head h1{font-family:var(--serif);font-weight:500;font-size:28px;color:var(--ink);line-height:1.15}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px 10px}
+.msgs{flex:1;min-height:0;overflow-y:auto;padding:6px 18px 12px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:86%;padding:11px 14px;border-radius:18px;font-size:14.5px;line-height:1.5;overflow-wrap:anywhere}
+.msg.bot{background:var(--card);border:1px solid var(--line);color:var(--text);border-bottom-left-radius:6px;align-self:flex-start}
+.msg.me{background:var(--navy);color:#F3EFE8;border-bottom-right-radius:6px;align-self:flex-end}
+.msg.err{background:var(--red-soft);border-color:#EBC3B8;color:#8A3E2E}
+.msg p+p,.msg ul+p,.msg p+ul{margin-top:6px}
+.msg ul{padding-left:18px}
+.msg b{color:var(--ink);font-weight:600}
+.msg.me b{color:#fff}
+.typing{display:inline-flex;gap:4px}
+.typing i{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:b 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes b{0%,80%,100%{opacity:.25}40%{opacity:1}}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:0 18px 10px;scrollbar-width:none}
+.chips button{flex:none;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 13px;font-size:13px;color:var(--text)}
+.composer{display:flex;gap:8px;align-items:flex-end;padding:10px 14px 14px;border-top:1px solid var(--line);background:var(--cream)}
+.composer textarea{flex:1;min-width:0;resize:none;max-height:120px;border:1px solid var(--line);background:var(--card);border-radius:20px;padding:11px 14px;font-size:14.5px;line-height:1.4}
+.send{width:44px;height:44px;border-radius:50%;background:var(--yellow);border:1.5px solid var(--ink);display:grid;place-items:center;color:var(--ink);flex:none}
+.send:disabled{opacity:.5;cursor:default}
+
+/* ---------- module frames ---------- */
+#v-app{background:var(--cream)}
+#frames,#frames iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:var(--cream)}
+.overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:30px;text-align:center;background:var(--cream)}
+.overlay h3{font-family:var(--serif);font-weight:500;font-size:22px;color:var(--ink)}
+.overlay p{font-size:14px;color:var(--muted);max-width:30ch}
+.overlay pre{font-size:11px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;max-width:100%;max-height:150px;overflow:auto;text-align:left;white-space:pre-wrap;color:var(--text)}
+.spin{width:34px;height:34px;border-radius:50%;border:3px solid var(--line);border-top-color:var(--yellow);animation:s 0.9s linear infinite}
+@keyframes s{to{transform:rotate(360deg)}}
+.btn{background:var(--yellow);color:var(--ink);font-weight:600;border-radius:999px;padding:10px 20px;border:1.5px solid var(--ink)}
+
+/* ---------- food scan ---------- */
+#v-food{display:flex;flex-direction:column;overflow:hidden}
+.f-scroll{flex:1;min-height:0;overflow-y:auto;padding:0 18px 18px;display:flex;flex-direction:column;gap:14px}
+.f-card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px}
+.f-today{display:flex;align-items:center;gap:14px}
+.f-today .big{font-family:var(--serif);font-size:34px;line-height:1;color:var(--ink)}
+.f-today .big small{font-family:var(--sans);font-size:12px;color:var(--muted);margin-left:4px}
+.f-today .meta{flex:1;min-width:0;font-size:12.5px;color:var(--muted);line-height:1.5}
+.f-mini{display:flex;gap:10px;font-size:12px;color:var(--text)}
+.f-mini b{font-weight:600;color:var(--ink)}
+.f-hero{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:26px 18px 20px}
+.f-hero .cam{width:72px;height:72px;border-radius:22px;background:var(--yellow-soft);border:1.5px solid var(--ink);display:grid;place-items:center;color:var(--ink)}
+.f-hero .cam svg{width:34px;height:34px}
+.f-hero h2{font-family:var(--serif);font-weight:500;font-size:22px;color:var(--ink)}
+.f-hero p{font-size:13.5px;color:var(--muted);max-width:30ch;line-height:1.45}
+.f-btns{display:flex;gap:10px;width:100%;margin-top:6px}
+.f-btns label{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;padding:12px 10px;font-weight:600;font-size:14px;cursor:pointer;border:1.5px solid var(--ink)}
+.f-btns label svg{width:18px;height:18px}
+.f-primary{background:var(--yellow);color:var(--ink)}
+.f-ghost{background:var(--card);color:var(--ink)}
+.f-note{width:100%;border:1px solid var(--line);background:var(--cream);border-radius:14px;padding:10px 12px;font-size:13.5px}
+.f-tips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.f-tips span{font-size:11.5px;color:var(--muted);background:var(--cream);border:1px solid var(--line);border-radius:999px;padding:4px 10px}
+.f-off{background:var(--red-soft);border:1px solid #EBC3B8;color:#8A3E2E;border-radius:16px;padding:12px 14px;font-size:13px;line-height:1.45}
+.f-off button{margin-top:8px}
+.f-meals{display:flex;flex-direction:column}
+.f-meal{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-top:1px solid var(--line);font-size:13px}
+.f-meal:first-child{border-top:0;padding-top:2px}
+.f-meal span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text)}
+.f-meal em{font-style:normal;color:var(--muted);margin-right:6px}
+.f-meal b{font-weight:600;color:var(--ink);flex:none}
+
+/* scanning */
+.f-scan{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;padding-top:6px}
+.f-photo{position:relative;width:100%;aspect-ratio:4/3;border-radius:22px;overflow:hidden;background:#E2DDD3;border:1px solid var(--line)}
+.f-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.f-photo.noimg{aspect-ratio:auto;height:120px}
+.f-photo .beam{position:absolute;left:0;right:0;height:38%;top:-38%;background:linear-gradient(180deg,rgba(249,212,104,0) 0%,rgba(249,212,104,.45) 85%,#F9D468 100%);animation:beam 2.2s ease-in-out infinite}
+@keyframes beam{0%{top:-38%}100%{top:100%}}
+.f-scan h2{font-family:var(--serif);font-weight:500;font-size:22px;color:var(--ink)}
+.f-scan p{font-size:13.5px;color:var(--muted);min-height:20px}
+.f-link{color:var(--ink);font-weight:600;font-size:13.5px;text-decoration:underline;text-underline-offset:3px;padding:6px}
+
+/* results */
+.f-top{display:flex;align-items:center;gap:12px}
+.f-top img{width:58px;height:58px;border-radius:14px;object-fit:cover;border:1px solid var(--line);flex:none}
+.f-top div{flex:1;min-width:0}
+.f-top b{display:block;font-size:15px;color:var(--ink)}
+.f-top small{font-size:12.5px;color:var(--muted)}
+.f-total{display:flex;flex-direction:column;gap:14px}
+.f-kcal{display:flex;align-items:baseline;gap:8px}
+.f-kcal .n{font-family:var(--serif);font-size:46px;line-height:1;color:var(--ink)}
+.f-kcal .u{font-size:13px;color:var(--muted)}
+.f-macros{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.f-macro .k{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.f-macro .v{font-family:var(--serif);font-size:21px;color:var(--ink);line-height:1.3}
+.f-macro .v small{font-family:var(--sans);font-size:12px;color:var(--muted)}
+.f-bar{height:5px;border-radius:5px;background:#EEEAE2;overflow:hidden;margin-top:6px}
+.f-bar i{display:block;height:100%;border-radius:5px}
+.f-items{display:flex;flex-direction:column;gap:10px}
+.f-item{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.f-item.check{border-color:#E9CF86;background:#FFFCF3}
+.f-row{display:flex;gap:10px;align-items:flex-start}
+.f-name{flex:1;min-width:0}
+.f-name b{display:block;font-size:15px;font-weight:600;color:var(--ink)}
+.f-name small{display:block;font-size:12.5px;color:var(--muted);line-height:1.35;margin-top:1px}
+.f-tags{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.f-tag{font-size:11px;font-weight:600;border-radius:999px;padding:2px 8px;background:var(--cream);border:1px solid var(--line);color:var(--text)}
+.f-tag.warn{background:var(--yellow-soft);border-color:#E9CF86;color:#8A6A12}
+.f-k{text-align:right;flex:none}
+.f-k b{font-family:var(--serif);font-size:22px;font-weight:500;color:var(--ink);line-height:1}
+.f-k small{display:block;font-size:11px;color:var(--muted)}
+.f-x{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:var(--muted);flex:none;margin:-4px -6px 0 0}
+.f-x:hover{background:var(--cream);color:var(--ink)}
+.f-row2{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.f-step{display:flex;align-items:center;background:var(--cream);border:1px solid var(--line);border-radius:999px}
+.f-step button{width:34px;height:32px;display:grid;place-items:center;color:var(--ink);font-size:18px;line-height:1}
+.f-step span{min-width:84px;text-align:center;font-size:13px;font-weight:600;color:var(--ink)}
+.f-pcf{font-size:12px;color:var(--muted);white-space:nowrap}
+.f-add{border:1.5px dashed #CFC8BC;border-radius:18px;padding:13px;color:var(--ink);font-weight:600;font-size:14px;display:flex;align-items:center;justify-content:center;gap:8px;background:transparent;width:100%}
+.f-warn{font-size:12px;color:var(--muted);line-height:1.5}
+.f-foot{padding:12px 16px 14px;border-top:1px solid var(--line);background:var(--cream);display:flex;flex-direction:column;gap:6px;align-items:center}
+.f-log{width:100%;background:var(--yellow);border:1.5px solid var(--ink);border-radius:999px;padding:13px;font-weight:700;font-size:15px;color:var(--ink)}
+.f-log:disabled{opacity:.5}
+.f-disc{font-size:11px;color:var(--muted);text-align:center;line-height:1.4}
+
+/* add-item sheet + toast */
+.f-sheet{position:absolute;inset:0;background:rgba(43,58,82,.35);display:flex;align-items:flex-end;z-index:5}
+.f-sheet .panel{background:var(--cream);width:100%;max-height:78%;border-radius:24px 24px 0 0;display:flex;flex-direction:column;padding:16px 16px 0}
+.f-sheet h3{font-family:var(--serif);font-weight:500;font-size:20px;color:var(--ink);display:flex;justify-content:space-between;align-items:center}
+.f-sheet input{margin:12px 0 8px;border:1px solid var(--line);background:var(--card);border-radius:14px;padding:11px 14px;font-size:14.5px;width:100%}
+.f-list{overflow-y:auto;padding-bottom:16px}
+.f-list button{display:flex;justify-content:space-between;width:100%;padding:12px 4px;border-bottom:1px solid var(--line);font-size:14px;text-align:left;color:var(--text)}
+.f-list button small{color:var(--muted);font-size:12px}
+.f-toast{position:absolute;left:50%;bottom:86px;transform:translateX(-50%);background:var(--navy);color:#F3EFE8;font-size:13.5px;padding:10px 16px;border-radius:999px;z-index:6;white-space:nowrap}
+.c-food{--bgc:#FCEBDD;--fc:#C46A35}
+@media (prefers-reduced-motion:reduce){.f-photo .beam{animation:none;top:0;opacity:.35}}
+
+/* ---------- tab bar ---------- */
+.tabbar{background:var(--navy);display:flex;justify-content:space-around;padding:10px 6px calc(12px + env(safe-area-inset-bottom,0px));flex:none}
+.tab{display:flex;flex-direction:column;align-items:center;gap:4px;color:#8E9AAE;font-size:11px;min-width:50px}
+.tab .ti{width:38px;height:38px;border-radius:12px;display:grid;place-items:center}
+.tab svg{width:22px;height:22px}
+.tab.on{color:var(--yellow)}
+.tab.on .ti{background:var(--yellow);color:var(--navy)}
+@media (prefers-reduced-motion:reduce){.spin,.typing i{animation:none}}
+</style>
+</head><body>
+<div class="phone">
+  <div class="views">
+
+    <!-- HOME -->
+    <section class="view" id="v-home">
+      <div class="top">
+        <div class="avatar">B</div>
+        <div class="date"><small id="dow">Thursday</small><b id="dmy">15 October</b></div>
+        <button class="sq" id="refresh" aria-label="Refresh">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V11"/><path d="M12 11c0-4 3-6 7-6 0 4-3 6-7 6z"/><path d="M12 14c0-3-2.5-5-6-5 0 3 2.5 5 6 5z"/></svg>
+        </button>
+      </div>
+      <p class="greet" id="greet">Good evening · Let's stay consistent today</p>
+
+      <div class="ring-wrap">
+        <div class="ring">
+          <svg viewBox="0 0 170 170" aria-hidden="true">
+            <circle cx="85" cy="85" r="74" fill="none" stroke="#E2DDD3" stroke-width="12"/>
+            <circle id="arc" cx="85" cy="85" r="74" fill="none" stroke="#F9D468" stroke-width="12" stroke-linecap="round" stroke-dasharray="465" stroke-dashoffset="465"/>
+            <circle cx="85" cy="85" r="58" fill="none" stroke="#8FBF9A" stroke-width="1.5" stroke-dasharray="5 6"/>
+          </svg>
+          <div class="c"><span class="n" id="streak">0</span><span class="l">DAY STREAK</span></div>
+        </div>
+        <div class="week" id="week"></div>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><span class="v" id="s-calm">0</span><span class="k">calm min<br>today</span><i style="background:var(--teal)"></i></div>
+        <div class="stat"><span class="v" id="s-focus">0</span><span class="k">focus min<br>today</span><i style="background:var(--yellow)"></i></div>
+        <div class="stat"><span class="v" id="s-journal">0</span><span class="k">journal<br>entries</span><i style="background:var(--lav)"></i></div>
+      </div>
+
+      <div class="sec"><h2>Your apps</h2><span id="running">checking…</span></div>
+      <div class="apps" id="apps"></div>
+    </section>
+
+    <!-- COACH -->
+    <section class="view hidden" id="v-coach">
+      <div class="chat-head">
+        <div><p class="eyebrow">AI wellness coach</p><h1>Coach</h1></div>
+        <span class="pill"><span class="dot" id="coach-dot"></span><span id="coach-st">checking</span></span>
+      </div>
+      <div class="msgs" id="msgs">
+        <div class="msg bot"><p>Hi! I'm your BeLiving coach. Ask me anything about food, workouts, sleep or stress.</p></div>
+      </div>
+      <div class="chips" id="chips">
+        <button type="button">High-protein veg breakfast</button>
+        <button type="button">10-min home workout</button>
+        <button type="button">I can't sleep</button>
+        <button type="button">Feeling stressed today</button>
+      </div>
+      <form class="composer" id="composer">
+        <textarea id="say" rows="1" placeholder="Message your coach…" aria-label="Message"></textarea>
+        <button class="send" id="send" type="submit" aria-label="Send">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </form>
+    </section>
+
+    <!-- FOOD SCAN -->
+    <section class="view hidden" id="v-food">
+      <div class="chat-head">
+        <div><p class="eyebrow">Nutrition</p><h1>Food Scan</h1></div>
+        <span class="pill"><span class="dot" id="food-dot"></span><span id="food-st">checking</span></span>
+      </div>
+
+      <!-- start -->
+      <div class="f-scroll" id="f-start">
+        <div class="f-card">
+          <div class="f-today">
+            <div class="big" id="f-day-kcal">0<small>kcal</small></div>
+            <div class="meta"><span id="f-day-meals">Nothing logged yet today</span>
+              <div class="f-mini"><span>P <b id="f-day-p">0</b>g</span><span>C <b id="f-day-c">0</b>g</span><span>F <b id="f-day-f">0</b>g</span></div></div>
+          </div>
+        </div>
+        <div class="f-off hidden" id="f-off"></div>
+        <div class="f-card f-hero">
+          <div class="cam"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2l1.5-2h6l1.5 2h2A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5z"/><circle cx="12" cy="13" r="3.5"/></svg></div>
+          <h2>Snap your plate</h2>
+          <p>We'll find every item, how much of it there is, and its calories and macros.</p>
+          <div class="f-btns">
+            <label class="f-primary"><input type="file" accept="image/*" capture="environment" id="f-cam" hidden>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2l1.5-2h6l1.5 2h2A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5z"/><circle cx="12" cy="13" r="3.5"/></svg>Take photo</label>
+            <label class="f-ghost"><input type="file" accept="image/*" id="f-pick" hidden>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M20 16l-5-5-8 8"/></svg>Upload</label>
+          </div>
+          <input class="f-note" id="f-note" maxlength="120" placeholder="Add a note (optional): home cooked, less oil…">
+          <div class="f-tips"><span>From above</span><span>Whole plate in frame</span><span>Good light</span></div>
+        </div>
+        <div class="f-card hidden" id="f-meals-card">
+          <div class="sec" style="margin-bottom:6px"><h2>Logged today</h2><span id="f-meals-n"></span></div>
+          <div class="f-meals" id="f-meals"></div>
+        </div>
+      </div>
+
+      <!-- scanning -->
+      <div class="f-scroll hidden" id="f-busy">
+        <div class="f-scan">
+          <div class="f-photo"><img id="f-busy-img" alt="Your meal"><div class="beam"></div></div>
+          <h2>Reading your plate…</h2>
+          <p id="f-busy-msg">Spotting each dish</p>
+          <button class="f-link" id="f-cancel" type="button">Cancel</button>
+        </div>
+      </div>
+
+      <!-- results -->
+      <div class="f-scroll hidden" id="f-res">
+        <div class="f-top">
+          <img id="f-res-img" alt="Your meal">
+          <div><b id="f-res-title">Your meal</b><small id="f-res-sub"></small></div>
+          <label class="f-link" style="cursor:pointer"><input type="file" accept="image/*" id="f-retake" hidden>Retake</label>
+        </div>
+        <div class="f-card f-total">
+          <div class="f-kcal"><span class="n" id="f-kcal">0</span><span class="u">kcal in this meal</span></div>
+          <div class="f-macros" id="f-macros"></div>
+        </div>
+        <div class="sec"><h2>What we found</h2><span>tap − / + to fix portions</span></div>
+        <div class="f-items" id="f-items"></div>
+        <button class="f-add" id="f-add" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Add something we missed</button>
+        <p class="f-warn hidden" id="f-warn"></p>
+      </div>
+      <div class="f-foot hidden" id="f-foot">
+        <button class="f-log" id="f-log" type="button">Log meal</button>
+        <p class="f-disc">Estimated from a photo. Check portions before logging.</p>
+      </div>
+
+      <!-- error -->
+      <div class="f-scroll hidden" id="f-err">
+        <div class="f-scan">
+          <div class="f-photo"><img id="f-err-img" alt=""></div>
+          <h2 id="f-err-title">Couldn't read this meal</h2>
+          <p id="f-err-msg"></p>
+          <div class="f-btns" style="max-width:320px">
+            <button class="f-log" id="f-err-retry" type="button" style="flex:1">Try again</button>
+          </div>
+          <button class="f-link" id="f-err-back" type="button">Choose another photo</button>
+        </div>
+      </div>
+
+      <div class="f-sheet hidden" id="f-sheet">
+        <div class="panel">
+          <h3>Add an item <button class="f-x" id="f-sheet-x" type="button" aria-label="Close">✕</button></h3>
+          <input id="f-q" placeholder="Search: roti, curd, papad…" autocomplete="off">
+          <div class="f-list" id="f-list"></div>
+        </div>
+      </div>
+      <div class="f-toast hidden" id="f-toast"></div>
+    </section>
+
+    <!-- OTHER MODULES -->
+    <section class="view hidden" id="v-app">
+      <div id="frames"></div>
+      <div class="overlay hidden" id="ov">
+        <div class="spin" id="ov-spin"></div>
+        <h3 id="ov-title">Starting…</h3>
+        <p id="ov-text"></p>
+        <pre id="ov-log" class="hidden"></pre>
+        <button class="btn hidden" id="ov-retry" type="button">Try again</button>
+      </div>
+    </section>
+  </div>
+
+  <nav class="tabbar" id="tabbar"></nav>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const I = {
+  home:'<path d="M4 11l8-7 8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/>',
+  coach:'<path d="M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-8l-4 3v-3H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/><path d="M8.5 10.5h.01M12 10.5h.01M15.5 10.5h.01"/>',
+  clock:'<circle cx="12" cy="13" r="7"/><path d="M12 9.5V13l2.5 1.5M9.5 3h5M12 3v3"/>',
+  journal:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/>',
+  focus:'<rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3M12 14.5v2.5"/>',
+  calm:'<rect x="4.5" y="4.5" width="15" height="15" rx="3"/><path d="M8.5 15.5v-7h7"/><circle cx="15.5" cy="8.5" r="1.4" fill="currentColor"/>',
+  food:'<path d="M3.5 11.5h17a8.5 8.5 0 0 1-17 0z"/><path d="M8.5 7.5c0-1.4 1-1.8 1-3.2M12 7.5c0-1.4 1-1.8 1-3.2M15.5 7.5c0-1.4 1-1.8 1-3.2"/>'
+};
+const svg = k => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${I[k]}</svg>`;
+const APPS = [
+  {id:'food',    name:'Food Scan',      cat:'Nutrition', desc:'Snap your plate, get calories and macros'},
+  {id:'coach',   name:'Coach',          cat:'Chat',      desc:'Ask about food, fitness, sleep, stress'},
+  {id:'clock',   name:'Beat the Clock', cat:'Focus',     desc:'Break a task you\'re putting off into tiny steps'},
+  {id:'journal', name:'Voice Journal',  cat:'Mind',      desc:'Talk about your day, get a diary entry'},
+  {id:'focus',   name:'Focus Lock',     cat:'Focus',     desc:'Lock in for a set time and earn leaves'},
+  {id:'calm',    name:'Box Breathing',  cat:'Mindful',   desc:'Calm down in 1 to 5 minutes, voice guided'}
+];
+const TABS = [['home','Home'],['food','Food'],['coach','Coach'],['journal','Journal'],['focus','Focus'],['calm','Calm']];
+let status = {}, current = 'home';
+const frames = {};
+
+/* ---------- header ---------- */
+(function header(){
+  const d = new Date();
+  $('dow').textContent = d.toLocaleDateString('en-IN',{weekday:'long'});
+  $('dmy').textContent = d.toLocaleDateString('en-IN',{day:'numeric',month:'long'});
+  const h = d.getHours();
+  $('greet').textContent = `${h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening'} · Let's stay consistent today`;
+})();
+
+/* ---------- tab bar + app list ---------- */
+$('tabbar').innerHTML = TABS.map(([id,l]) => `<button class="tab" data-go="${id}" type="button"><span class="ti">${svg(id)}</span>${l}</button>`).join('');
+$('apps').innerHTML = APPS.map(a => `
+  <button class="app c-${a.id}" data-go="${a.id}" type="button">
+    <span class="ic">${svg(a.id)}</span>
+    <span class="t"><b>${a.name}</b><small>${a.desc}</small><span class="st"><span class="dot" id="dot-${a.id}"></span><span id="st-${a.id}">checking</span> · ${a.cat}</span></span>
+    <span class="open">Open</span>
+  </button>`).join('');
+document.addEventListener('click', e => { const b = e.target.closest('[data-go]'); if (b) go(b.dataset.go); });
+
+function go(id){
+  current = id;
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.go === id));
+  $('v-home').classList.toggle('hidden', id !== 'home');
+  $('v-coach').classList.toggle('hidden', id !== 'coach');
+  $('v-food').classList.toggle('hidden', id !== 'food');
+  $('v-app').classList.toggle('hidden', ['home', 'coach', 'food'].includes(id));
+  if (id === 'home') loadSummary();
+  if (id === 'food') { renderDay(); foodStatus(); }
+  if (!['home', 'coach', 'food'].includes(id)) showModule(id);
+}
+
+/* ---------- modules inside the phone ---------- */
+function showModule(id){
+  Object.entries(frames).forEach(([k,f]) => f.classList.toggle('hidden', k !== id));
+  const s = status[id];
+  if (s && s.state === 'running'){
+    if (!frames[id]){
+      const f = document.createElement('iframe');
+      f.src = `http://localhost:${s.port}/`;
+      f.title = s.name;
+      f.allow = 'microphone; autoplay; fullscreen; screen-wake-lock; clipboard-write';
+      $('frames').appendChild(f); frames[id] = f;
+    }
+    $('ov').classList.add('hidden');
+  } else overlay(id, s);
+}
+function overlay(id, s){
+  const app = APPS.find(a => a.id === id);
+  $('ov').classList.remove('hidden');
+  const failed = s && (s.state === 'stopped' || s.state === 'missing');
+  $('ov-spin').classList.toggle('hidden', !!failed);
+  $('ov-title').textContent = failed ? `${app.name} didn't start` : `Starting ${app.name}…`;
+  $('ov-text').textContent = failed ? `Check it has: ${s.needs}. The details are below and in beliving_sample\\logs\\${id}.log.` : 'This takes a few seconds the first time.';
+  $('ov-log').classList.toggle('hidden', !failed || !s.message);
+  $('ov-log').textContent = failed ? s.message : '';
+  $('ov-retry').classList.toggle('hidden', !failed);
+  $('ov-retry').onclick = async () => { await fetch('/api/restart/' + id, {method:'POST'}); status[id] = {...status[id], state:'starting'}; overlay(id, status[id]); };
+}
+
+async function poll(){
+  try { status = await (await fetch('/api/status')).json(); } catch { return; }
+  let up = 0;
+  APPS.forEach(a => {
+    const s = status[a.id] || {};
+    if (s.state === 'running') up++;
+    $('dot-' + a.id).className = 'dot ' + (s.state || '');
+    $('st-' + a.id).textContent = {running:'Ready', starting:'Starting…', stopped:'Not running', missing:'Folder missing'}[s.state] || 'checking';
+  });
+  $('running').textContent = `${up} of ${APPS.length} ready`;
+  const c = status.coach || {};
+  $('coach-dot').className = 'dot ' + (c.state || '');
+  $('coach-st').textContent = c.state === 'running' ? 'online' : c.state === 'starting' ? 'starting' : 'offline';
+  foodStatus();
+  if (!['home', 'coach', 'food'].includes(current)) showModule(current);
+}
+setInterval(poll, 2500); poll();
+
+/* ---------- home numbers ---------- */
+async function loadSummary(){
+  let s; try { s = await (await fetch('/api/summary')).json(); } catch { return; }
+  $('streak').textContent = s.streak;
+  $('arc').style.strokeDashoffset = 465 * (1 - Math.min(1, s.streak / 7));
+  $('s-calm').textContent = s.calm_minutes;
+  $('s-focus').textContent = s.focus_minutes;
+  $('s-journal').textContent = s.journal_today;
+  $('week').innerHTML = 'MTWTFSS'.split('').map((d,i) => `<span class="${s.week[i] ? 'on' : ''} ${i === s.today_index ? 'today' : ''}">${d}</span>`).join('');
+}
+$('refresh').onclick = () => { loadSummary(); poll(); };
+setInterval(() => { if (current === 'home') loadSummary(); }, 15000);
+
+/* ---------- coach chat ---------- */
+const history = [];
+const esc = t => t.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function md(t){
+  const lines = esc(t).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/^#{1,4}\s*(.+)$/gm,'<b>$1</b>').split('\n');
+  let out = '', list = false;
+  for (const l of lines){
+    const m = l.match(/^\s*(?:[-*•]|\d+[.)])\s+(.*)/);
+    if (m){ if (!list){ out += '<ul>'; list = true; } out += `<li>${m[1]}</li>`; continue; }
+    if (list){ out += '</ul>'; list = false; }
+    if (l.trim()) out += `<p>${l}</p>`;
+  }
+  return out + (list ? '</ul>' : '');
+}
+function bubble(cls, html){ const d = document.createElement('div'); d.className = 'msg ' + cls; d.innerHTML = html; $('msgs').appendChild(d); $('msgs').scrollTop = 1e9; return d; }
+async function ask(text){
+  text = text.trim(); if (!text) return;
+  $('say').value = ''; $('say').style.height = ''; $('send').disabled = true; $('chips').classList.add('hidden');
+  bubble('me', `<p>${esc(text)}</p>`);
+  const b = bubble('bot', '<span class="typing"><i></i><i></i><i></i></span>');
+  let reply = '';
+  try {
+    const port = (status.coach && status.coach.port) || 8010;
+    const r = await fetch(`http://localhost:${port}/chat/stream`, {method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({message: text, history: history.slice(-10)})});
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const rd = r.body.getReader(), dec = new TextDecoder();
+    for (;;){ const {done, value} = await rd.read(); if (done) break; reply += dec.decode(value, {stream:true}); b.innerHTML = md(reply); $('msgs').scrollTop = 1e9; }
+    history.push({role:'user', content:text}, {role:'assistant', content:reply});
+  } catch (e) {
+    b.className = 'msg bot err';
+    b.innerHTML = '<p>Coach isn\'t reachable right now. Make sure the chatbot folder has its <b>.env</b> key and its packages installed, then tap Coach again.</p>';
+  }
+  $('send').disabled = false; $('say').focus();
+}
+$('composer').addEventListener('submit', e => { e.preventDefault(); ask($('say').value); });
+$('say').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); ask($('say').value); } });
+$('say').addEventListener('input', e => { e.target.style.height = ''; e.target.style.height = Math.min(120, e.target.scrollHeight) + 'px'; });
+$('chips').addEventListener('click', e => { const b = e.target.closest('button'); if (b) ask(b.textContent); });
+
+/* ---------- food scan ---------- */
+const F = {meal:null, file:null, img:'', ctrl:null, dishes:null, timer:null};
+const foodApi = () => '/food';   // this app forwards /food/* to the Food Scan API (no CORS needed)
+const r0 = n => Math.round(n), r1 = n => Math.round(n * 10) / 10;
+const todayKey = () => new Date().toLocaleDateString('en-CA');
+function foodLog(){ try { const d = JSON.parse(localStorage.getItem('bl_food_log') || '{}'); return d.day === todayKey() ? d : {day: todayKey(), meals: []}; } catch { return {day: todayKey(), meals: []}; } }
+function saveLog(d){ try { localStorage.setItem('bl_food_log', JSON.stringify(d)); } catch {} }
+function fView(v){ ['f-start','f-busy','f-res','f-err'].forEach(id => $(id).classList.toggle('hidden', id !== v)); $('f-foot').classList.toggle('hidden', v !== 'f-res'); }
+function toast(t){ const el = $('f-toast'); el.textContent = t; el.classList.remove('hidden'); clearTimeout(el._t); el._t = setTimeout(() => el.classList.add('hidden'), 2200); }
+
+function renderDay(){
+  const d = foodLog(), sum = k => d.meals.reduce((a, m) => a + m[k], 0);
+  $('f-day-kcal').innerHTML = `${r0(sum('kcal')).toLocaleString('en-IN')}<small>kcal today</small>`;
+  $('f-day-p').textContent = r0(sum('p')); $('f-day-c').textContent = r0(sum('c')); $('f-day-f').textContent = r0(sum('f'));
+  $('f-day-meals').textContent = d.meals.length ? `${d.meals.length} meal${d.meals.length > 1 ? 's' : ''} logged` : 'Nothing logged yet today';
+  $('f-meals-card').classList.toggle('hidden', !d.meals.length);
+  $('f-meals-n').textContent = d.meals.length ? `${d.meals.length}` : '';
+  $('f-meals').innerHTML = d.meals.slice().reverse().map(m => `<div class="f-meal"><span><em>${esc(m.time)}</em>${esc(m.name)}</span><b>${r0(m.kcal)} kcal</b></div>`).join('');
+}
+
+function foodStatus(){
+  const s = status.food || {};
+  $('food-dot').className = 'dot ' + (s.state || '');
+  $('food-st').textContent = s.state === 'running' ? 'online' : s.state === 'starting' ? 'starting' : 'offline';
+  const off = $('f-off'), bad = s.state === 'stopped' || s.state === 'missing';
+  off.classList.toggle('hidden', !bad);
+  if (bad) {
+    off.innerHTML = `<b>Food Scan isn't running.</b> It needs: ${esc(s.needs || 'its key')}. Details are in beliving_sample\\logs\\food.log.<br><button class="btn" type="button" id="f-restart">Try again</button>`;
+    $('f-restart').onclick = async () => { await fetch('/api/restart/food', {method:'POST'}); status.food = {...s, state:'starting'}; foodStatus(); };
+  }
+}
+
+/* resize on the phone before upload: ~1600 px JPEG = faster on mobile data, same accuracy */
+function shrink(file){
+  return new Promise(res => {
+    const url = URL.createObjectURL(file), im = new Image();
+    im.onload = () => {
+      const k = Math.min(1, 1600 / Math.max(im.width, im.height)), c = document.createElement('canvas');
+      c.width = Math.round(im.width * k); c.height = Math.round(im.height * k);
+      c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
+      c.toBlob(b => res({blob: b || file, url: c.toDataURL('image/jpeg', .7)}), 'image/jpeg', .85);
+      URL.revokeObjectURL(url);
+    };
+    im.onerror = () => res({blob: file, url: ''});   // e.g. HEIC on desktop Chrome: send as is, server reads it
+    im.src = url;
+  });
+}
+
+async function scan(file){
+  if (!file) return;
+  F.file = file;
+  const {blob, url} = await shrink(file);
+  F.img = url;
+  ['f-busy-img','f-res-img','f-err-img'].forEach(id => { $(id).src = url || ''; $(id).style.visibility = url ? '' : 'hidden'; });
+  document.querySelectorAll('#f-err .f-photo').forEach(el => el.classList.toggle('hidden', !url));
+  $('f-busy-img').closest('.f-photo').classList.toggle('noimg', !url);
+  fView('f-busy');
+  const msgs = ['Spotting each dish', 'Counting rotis, naans and papads', 'Estimating portions', 'Matching our nutrition table', 'Almost there'];
+  let t = 0; $('f-busy-msg').textContent = msgs[0];
+  clearInterval(F.timer); F.timer = setInterval(() => { t++; $('f-busy-msg').textContent = `${msgs[Math.min(msgs.length - 1, Math.floor(t / 3))]} · ${t}s`; }, 1000);
+  F.ctrl = new AbortController();
+  const fd = new FormData(); fd.append('image', blob, 'meal.jpg');
+  const note = $('f-note').value.trim(); if (note) fd.append('hint', note);
+  try {
+    const r = await fetch(foodApi() + '/api/food/analyze', {method:'POST', body: fd, signal: F.ctrl.signal});
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) throw Object.assign(new Error(data.message || 'Something went wrong'), {code: data.error});
+    if (!data.is_food || !data.items.length) throw Object.assign(new Error("We couldn't spot any food in this photo. Try one taken from above with the whole plate in frame."), {code:'NO_FOOD'});
+    F.meal = data.items.map(i => ({...i, g: i.size.grams, pcs: i.size.pieces}));
+    F.warnings = data.warnings || [];
+    renderMeal(); fView('f-res');
+  } catch (e) {
+    if (e.name === 'AbortError') { fView('f-start'); return; }
+    const offline = e instanceof TypeError;
+    $('f-err-title').textContent = offline ? "Food Scan isn't reachable" : e.code === 'DAILY_LIMIT' ? 'Daily limit reached' : "Couldn't read this meal";
+    $('f-err-msg').textContent = offline ? 'Check that Food Scan shows "online" at the top, then try again.' : e.message;
+    $('f-err-retry').classList.toggle('hidden', e.code === 'DAILY_LIMIT' || e.code === 'BAD_IMAGE' || e.code === 'NO_FOOD');
+    fView('f-err');
+  } finally { clearInterval(F.timer); }
+}
+
+function itemMacros(i){ const k = i.g / 100, p = i.per_100g; return {kcal: p.kcal * k, p: p.protein_g * k, c: p.carbs_g * k, f: p.fat_g * k}; }
+function sizeTag(i){
+  const serv = i.size.servings && i.size.grams ? i.size.grams / i.size.servings : 0;
+  if (!serv) return i.size.category;
+  const x = i.g / serv; return x < .75 ? 'small' : x > 1.35 ? 'large' : 'regular';
+}
+function renderMeal(){
+  const tot = {kcal:0, p:0, c:0, f:0};
+  $('f-items').innerHTML = F.meal.map((i, n) => {
+    const m = itemMacros(i); Object.keys(tot).forEach(k => tot[k] += m[k]);
+    const amount = i.pcs ? `${i.pcs} pc${i.pcs === 1 ? '' : 's'} · ${r0(i.g)} g` : `${r0(i.g)} g${i.size.ml ? ' · ' + r0(i.size.ml * i.g / i.size.grams) + ' ml' : ''}`;
+    return `<div class="f-item ${i.needs_confirmation ? 'check' : ''}">
+      <div class="f-row">
+        <div class="f-name"><b>${esc(i.name)}</b><small>${esc(i.size.description || '')}${i.size.description ? ' · ' : ''}${sizeTag(i)}</small>
+          ${i.needs_confirmation || i.added ? `<div class="f-tags">${i.needs_confirmation ? '<span class="f-tag warn">Is this right?</span>' : ''}${i.added ? '<span class="f-tag">added by you</span>' : ''}</div>` : ''}</div>
+        <div class="f-k"><b>${r0(m.kcal)}</b><small>kcal</small></div>
+        <button class="f-x" type="button" data-rm="${n}" aria-label="Remove ${esc(i.name)}">✕</button>
+      </div>
+      <div class="f-row2">
+        <div class="f-step"><button type="button" data-dec="${n}" aria-label="Less">−</button><span>${amount}</span><button type="button" data-inc="${n}" aria-label="More">+</button></div>
+        <span class="f-pcf">P ${r0(m.p)} · C ${r0(m.c)} · F ${r0(m.f)}</span>
+      </div></div>`;
+  }).join('');
+  $('f-kcal').textContent = r0(tot.kcal).toLocaleString('en-IN');
+  const e = Math.max(1, tot.p * 4 + tot.c * 4 + tot.f * 9);
+  $('f-macros').innerHTML = [['Protein', tot.p, tot.p * 4, '#8FBF9A'], ['Carbs', tot.c, tot.c * 4, '#F9D468'], ['Fat', tot.f, tot.f * 9, '#B9A9D9']]
+    .map(([k, g, en, col]) => `<div class="f-macro"><div class="k">${k}</div><div class="v">${r0(g)}<small> g</small></div><div class="f-bar"><i style="width:${r0(en / e * 100)}%;background:${col}"></i></div></div>`).join('');
+  const n = F.meal.length;
+  $('f-res-title').textContent = `${n} item${n === 1 ? '' : 's'} found`;
+  $('f-res-sub').textContent = F.meal.some(i => i.needs_confirmation) ? 'Check the highlighted item before logging' : 'Looks good? Fix any portion, then log it';
+  $('f-log').textContent = `Log meal · ${r0(tot.kcal).toLocaleString('en-IN')} kcal`;
+  $('f-log').disabled = !n;
+  $('f-warn').classList.toggle('hidden', !F.warnings.length);
+  $('f-warn').textContent = F.warnings.join(' · ');
+  F.total = tot;
+}
+$('f-items').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  const n = +(b.dataset.inc ?? b.dataset.dec ?? b.dataset.rm), i = F.meal[n];
+  if (b.dataset.rm !== undefined) { F.meal.splice(n, 1); return renderMeal(); }
+  const up = b.dataset.inc !== undefined;
+  if (i.pcs) { i.pcs = Math.max(1, i.pcs + (up ? 1 : -1)); i.g = i.pcs * i.size.piece_g; }
+  else { const step = i.g < 60 ? 5 : i.g < 200 ? 10 : 25; i.g = Math.max(5, i.g + (up ? step : -step)); }
+  renderMeal();
+});
+
+/* + add something we missed: search the same food table the scanner uses */
+async function openSheet(){
+  $('f-sheet').classList.remove('hidden'); $('f-q').value = ''; $('f-q').focus();
+  if (!F.dishes) { try { F.dishes = (await (await fetch(foodApi() + '/api/food/dishes')).json()).dishes; } catch { F.dishes = []; } }
+  listDishes('');
+}
+function listDishes(q){
+  q = q.toLowerCase().trim();
+  const hits = F.dishes.filter(d => !q || d.name.toLowerCase().includes(q) || d.aliases.some(a => a.includes(q))).slice(0, 40);
+  $('f-list').innerHTML = hits.length ? hits.map(d => {
+    const g = d.piece_g || d.serving_g || 100;
+    return `<button type="button" data-key="${d.key}"><span>${esc(d.name)}</span><small>${d.piece_g ? '1 pc · ' : ''}${r0(g)} g · ${r0(d.per_100g.kcal * g / 100)} kcal</small></button>`;
+  }).join('') : '<p class="f-warn" style="padding:12px 4px">No match. Try another name.</p>';
+}
+$('f-list').addEventListener('click', e => {
+  const b = e.target.closest('[data-key]'); if (!b) return;
+  const d = F.dishes.find(x => x.key === b.dataset.key), g = d.piece_g || d.serving_g || 100;
+  F.meal.push({name: d.name, canonical_key: d.key, per_100g: d.per_100g, g, pcs: d.piece_g ? 1 : null, added: true, needs_confirmation: false,
+               size: {grams: g, ml: null, pieces: d.piece_g ? 1 : null, piece_g: d.piece_g, description: d.piece_g ? '1 piece' : '1 serving', category: 'regular', servings: 1}});
+  $('f-sheet').classList.add('hidden'); renderMeal();
+});
+$('f-q').addEventListener('input', e => listDishes(e.target.value));
+$('f-add').onclick = openSheet;
+$('f-sheet-x').onclick = () => $('f-sheet').classList.add('hidden');
+$('f-sheet').addEventListener('click', e => { if (e.target.id === 'f-sheet') $('f-sheet').classList.add('hidden'); });
+
+$('f-log').onclick = () => {
+  const d = foodLog(), t = F.total;
+  d.meals.push({time: new Date().toLocaleTimeString('en-IN', {hour:'numeric', minute:'2-digit'}), name: F.meal.map(i => i.name).join(', '),
+                kcal: t.kcal, p: t.p, c: t.c, f: t.f});
+  saveLog(d); renderDay(); fView('f-start'); $('f-note').value = ''; toast(`Logged · ${r0(t.kcal).toLocaleString('en-IN')} kcal`);
+};
+['f-cam', 'f-pick', 'f-retake'].forEach(id => $(id).addEventListener('change', e => { scan(e.target.files[0]); e.target.value = ''; }));
+$('f-cancel').onclick = () => F.ctrl && F.ctrl.abort();
+$('f-err-retry').onclick = () => scan(F.file);
+$('f-err-back').onclick = () => fView('f-start');
+$('f-toast').addEventListener('click', () => $('f-toast').classList.add('hidden'));
+renderDay();
+
+go('home');
+</script>
+</body></html>

@@ -1,0 +1,7 @@
+.venv/
+venv/
+__pycache__/
+.pytest_cache/
+.env
+demo_output.txt
+live_check_output.txt

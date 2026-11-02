@@ -1,0 +1,1 @@
+# Nothing extra needed: Focus Lock only uses Python's built-in modules.

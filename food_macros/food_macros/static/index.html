@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BeLiving Food Scan</title>
+<style>
+  :root { --bg:#f6f7f4; --card:#fff; --ink:#1c2321; --muted:#6b736f; --accent:#2f7d5b; --warn:#b26b00; --line:#e3e6e1; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#121513; --card:#1b1f1d; --ink:#e8ece9; --muted:#9aa39e; --line:#2c322f; } }
+  * { box-sizing:border-box; }
+  body { margin:0; font:15px/1.45 system-ui, sans-serif; background:var(--bg); color:var(--ink); }
+  main { max-width:860px; margin:0 auto; padding:24px 16px 48px; }
+  h1 { font-size:22px; margin:0 0 4px; } .sub { color:var(--muted); margin:0 0 20px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; margin-bottom:16px; }
+  .drop { display:block; border:2px dashed var(--line); border-radius:12px; padding:28px; text-align:center; cursor:pointer; }
+  .drop.over { border-color:var(--accent); }
+  #preview { max-width:100%; max-height:320px; border-radius:10px; display:none; margin:12px auto 0; }
+  .row { display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
+  input[type=text] { flex:1; min-width:200px; padding:10px 12px; border-radius:10px; border:1px solid var(--line); background:var(--bg); color:var(--ink); }
+  button { padding:10px 18px; border:0; border-radius:10px; background:var(--accent); color:#fff; font-weight:600; cursor:pointer; }
+  button:disabled { opacity:.5; cursor:wait; }
+  table { width:100%; border-collapse:collapse; font-size:14px; }
+  th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { color:var(--muted); font-weight:500; } td.n, th.n { text-align:right; font-variant-numeric:tabular-nums; }
+  tfoot td { font-weight:700; border-bottom:0; }
+  .tag { display:inline-block; font-size:12px; padding:1px 8px; border-radius:99px; background:var(--bg); border:1px solid var(--line); }
+  .confirm { color:var(--warn); font-size:12px; } .muted { color:var(--muted); font-size:13px; }
+  .scroll { overflow-x:auto; } .err { color:#c0392b; }
+  .totals { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:14px; }
+  .totals div { background:var(--bg); border-radius:10px; padding:10px; } .totals b { display:block; font-size:20px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Food Scan</h1>
+  <p class="sub">Upload a meal photo to get food labels, portion size and macros.</p>
+
+  <div class="card">
+    <label class="drop" id="drop">
+      <input type="file" id="file" accept="image/*" hidden>
+      <div id="dropText">Click or drop a food photo here</div>
+      <img id="preview" alt="">
+    </label>
+    <div class="row">
+      <input type="text" id="hint" placeholder="Optional hint, e.g. home cooked, less oil">
+      <button id="go" disabled>Analyze</button>
+    </div>
+  </div>
+
+  <div class="card" id="out" style="display:none"></div>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+let file = null;
+function pick(f) {
+  if (!f) return; file = f; $('go').disabled = false;
+  $('preview').src = URL.createObjectURL(f); $('preview').style.display = 'block';
+  $('dropText').textContent = f.name;
+}
+$('file').onchange = e => pick(e.target.files[0]);
+const drop = $('drop');
+drop.ondragover = e => { e.preventDefault(); drop.classList.add('over'); };
+drop.ondragleave = () => drop.classList.remove('over');
+drop.ondrop = e => { e.preventDefault(); drop.classList.remove('over'); pick(e.dataTransfer.files[0]); };
+
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const r1 = n => Math.round(n * 10) / 10;
+
+$('go').onclick = async () => {
+  const fd = new FormData(); fd.append('image', file);
+  if ($('hint').value.trim()) fd.append('hint', $('hint').value.trim());
+  $('go').disabled = true; $('go').textContent = 'Analyzing…';
+  const out = $('out'); out.style.display = 'block'; out.innerHTML = '<span class="muted">Looking at your plate…</span>';
+  try {
+    const res = await fetch('/api/food/analyze', { method: 'POST', body: fd });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || data.detail || res.statusText);
+    render(data);
+  } catch (e) { out.innerHTML = '<p class="err">' + esc(e.message) + '</p>'; }
+  $('go').disabled = false; $('go').textContent = 'Analyze';
+};
+
+function render(d) {
+  const out = $('out');
+  if (!d.is_food) { out.innerHTML = '<p>No food detected in this photo.</p>'; return; }
+  const t = d.totals;
+  let h = `<div class="totals">
+    <div><span class="muted">Calories</span><b>${Math.round(t.kcal)}</b></div>
+    <div><span class="muted">Protein</span><b>${r1(t.protein_g)} g</b></div>
+    <div><span class="muted">Carbs</span><b>${r1(t.carbs_g)} g</b></div>
+    <div><span class="muted">Fat</span><b>${r1(t.fat_g)} g</b></div></div>
+  <div class="scroll"><table><thead><tr>
+    <th>Food</th><th>Size</th><th class="n">kcal</th><th class="n">Protein</th><th class="n">Carbs</th><th class="n">Fat</th><th class="n">Fiber</th>
+  </tr></thead><tbody>`;
+  for (const i of d.items) {
+    const s = i.size, m = i.macros;
+    h += `<tr><td><b>${esc(i.name)}</b><br><span class="muted">${Math.round(i.confidence*100)}% sure</span>
+      ${i.needs_confirmation ? '<br><span class="confirm">Please confirm this item</span>' : ''}</td>
+      <td><span class="tag">${esc(s.category)}</span> ${esc(s.description)}<br>
+      <span class="muted">${s.pieces ? s.pieces + ' × ' + Math.round(s.piece_g) + ' g = ' : ''}${Math.round(s.grams)} g${s.ml ? ' · ' + Math.round(s.ml) + ' ml' : ''} · ${s.servings}× serving</span></td>
+      <td class="n">${Math.round(m.kcal)}</td><td class="n">${r1(m.protein_g)} g</td><td class="n">${r1(m.carbs_g)} g</td>
+      <td class="n">${r1(m.fat_g)} g</td><td class="n">${r1(m.fiber_g)} g</td></tr>`;
+  }
+  h += `</tbody></table></div>`;
+  if (d.warnings.length) h += '<p class="muted">' + d.warnings.map(esc).join('<br>') + '</p>';
+  h += `<p class="muted">${esc(d.provider)} / ${esc(d.model)} · ${(d.latency_ms/1000).toFixed(1)} s${d.cached ? ' · cached' : ''}<br>${esc(d.disclaimer)}</p>`;
+  out.innerHTML = h;
+}
+</script>
+</body>
+</html>

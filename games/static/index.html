@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#FFC83D" />
+  <title>BeLiving · Mind Gym</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/theme.css" />
+</head>
+<body>
+  <div id="app">
+    <div class="bg-blobs"><span></span><span></span><span></span></div>
+    <section id="hub" class="screen"></section>
+    <section id="game" class="screen side off-right"></section>
+    <section id="lb" class="screen side off-right"></section>
+    <canvas id="confetti"></canvas>
+    <div class="toast"></div>
+  </div>
+
+  <script src="js/core.js"></script>
+  <!-- each game is one self-contained file: lift any of them out on its own -->
+  <script src="js/games/mandala.js"></script>
+  <script src="js/games/pattern_recall.js"></script>
+  <script src="js/games/ivory.js"></script>
+  <script src="js/games/power_memory.js"></script>
+  <script src="js/games/speed_match.js"></script>
+  <script>BL.boot();</script>
+</body>
+</html>

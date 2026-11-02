@@ -1,0 +1,19 @@
+# secrets - never upload
+.env
+keys.env
+*.env
+!*.env.example
+# environments and caches
+venv/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+# personal/runtime data
+logs/
+entries/
+data/*.json
+data/*.db
+!food_macros/food_macros/food_db.json
+demo_output.txt
+live_check_output.txt
